@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { CgPlayListAdd } from 'react-icons/cg';
 
 function Todo() {
@@ -15,9 +15,15 @@ function Todo() {
   // button onClick
   const addTodos = (e) => {
     // console.log('object');
-    e.preventDefault();
-    setTodos([...todos, input]);
-    setInput('');
+
+    if (input === '') {
+      e.preventDefault();
+      console.log('Type Something ');
+    } else {
+      e.preventDefault();
+      setTodos([...todos, input]);
+      setInput('');
+    }
   };
 
   return (
@@ -25,14 +31,21 @@ function Todo() {
       <h1>Todo App🔥</h1>
 
       <form action="">
-        <input type="text" value={input} onChange={handleChange} />
-
+        {/* <input type="text" /> */}
+        <TextField
+          label="Add Todos..."
+          type="text"
+          variant="outlined"
+          value={input}
+          onChange={handleChange}
+        />
         <Button
           onClick={addTodos}
           type="submit"
           variant="contained"
           color="primary"
-          size="small"
+          size="large"
+          disabled={!input}
         >
           <CgPlayListAdd /> Add
         </Button>
