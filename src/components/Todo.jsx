@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { CgPlayListAdd } from 'react-icons/cg';
+import TodoList from './TodoList';
 
 function Todo() {
   const [input, setInput] = useState('');
@@ -16,6 +17,7 @@ function Todo() {
   const addTodos = (e) => {
     // console.log('object');
 
+    //if empty....
     if (input === '') {
       e.preventDefault();
       console.log('Type Something ');
@@ -31,7 +33,7 @@ function Todo() {
       <h1>Todo App🔥</h1>
 
       <form action="">
-        {/* <input type="text" /> */}
+        {/* <input type="text" value={input} onChange={handleChange} /> */}
         <TextField
           label="Add Todos..."
           type="text"
@@ -56,7 +58,8 @@ function Todo() {
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo}>{todo}</li>
+          <TodoList todo={todo} />
+          // <li key={todo}>{todo}</li>
         ))}
       </ul>
     </div>
