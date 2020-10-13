@@ -3,6 +3,7 @@ import { Button, TextField } from '@material-ui/core';
 import { CgPlayListAdd } from 'react-icons/cg';
 import TodoList from './TodoList';
 import DB from './db/firebase.js';
+import firebase from 'firebase';
 
 function Todo() {
   const [input, setInput] = useState('');
@@ -10,10 +11,12 @@ function Todo() {
 
   // fetch data from firebase
   useEffect(() => {
-    DB.collection('todos').onSnapshot((snapshot) => {
-      // console.log(snapshot.docs.map((doc) => doc.data()));
-      setTodos(snapshot.docs.map((doc) => doc.data().todo));
-    });
+    DB.collection('todos')
+      .orderBy('time', 'desc')
+      .onSnapshot((snapshot) => {
+        // console.log(snapshot.docs.map((doc) => doc.data()));
+        setTodos(snapshot.docs.map((doc) => doc.data().todo));
+      });
   }, []);
 
   //input onChange
@@ -36,6 +39,7 @@ function Todo() {
       //insert into firebase
       DB.collection('todos').add({
         todo: input,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
       });
       setTodos([...todos, input]);
       setInput('');
@@ -45,7 +49,7 @@ function Todo() {
   return (
     <div>
       <h1>
-        Todo App <span>🔥</span>
+        Todo App<span>🔥</span>
       </h1>
 
       <form action="">
