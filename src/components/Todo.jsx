@@ -21,13 +21,13 @@ function Todo() {
       });
   }, []);
 
-  //input onChange
+  //input todo
   const handleChange = (e) => {
     setInput(e.target.value);
     // console.log(input);
   };
 
-  // button onClick
+  // button Add todo
   const addTodos = (e) => {
     // console.log('object');
 

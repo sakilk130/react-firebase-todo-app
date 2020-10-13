@@ -11,7 +11,9 @@ import {
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import DB from './db/firebase';
 import { useState } from 'react';
+import firebase from 'firebase';
 
+// Update popup style
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -28,23 +30,28 @@ function TodoList(props) {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
 
+  // delete from firebase
   const deleteTodo = () => {
     DB.collection('todos').doc(props.todo.id).delete();
   };
 
+  // Modal close
   const handleClose = () => {
     setOpen(false);
   };
 
+  // update todo from firebase
   const updateTodo = () => {
     DB.collection('todos').doc(props.todo.id).set(
       {
         todo: input,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
       },
       { merge: true }
     );
     setOpen(false);
   };
+
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
@@ -60,10 +67,7 @@ function TodoList(props) {
       </Modal>
       <List className="todo-list">
         <ListItem>
-          {/* <ListItemAvatar>
-           Avatar
-          </ListItemAvatar> */}
-          <ListItemText primary={props.todo.todo} secondary="Date:13-10-2020" />
+          <ListItemText primary={props.todo.todo} secondary={props.todo.time} />
         </ListItem>
         <button onClick={(e) => setOpen(true)}>Edit </button>
         <Button
@@ -76,7 +80,6 @@ function TodoList(props) {
           <span>Remove</span>
         </Button>
       </List>
-      {/* <li key={props.todo}>{props.todo}</li> */}
     </div>
   );
 }
