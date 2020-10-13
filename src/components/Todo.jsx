@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { CgPlayListAdd } from 'react-icons/cg';
 import TodoList from './TodoList';
+import DB from './db/firebase.js';
 
 function Todo() {
   const [input, setInput] = useState('');
   const [todos, setTodos] = useState([]);
+
+  // fetch data from firebase
+  useEffect(() => {
+    DB.collection('todos').onSnapshot((snapshot) => {
+      // console.log(snapshot.docs.map((doc) => doc.data()));
+      setTodos(snapshot.docs.map((doc) => doc.data().todo));
+    });
+  }, []);
 
   //input onChange
   const handleChange = (e) => {
@@ -23,6 +32,11 @@ function Todo() {
       console.log('Type Something ');
     } else {
       e.preventDefault();
+
+      //insert into firebase
+      DB.collection('todos').add({
+        todo: input,
+      });
       setTodos([...todos, input]);
       setInput('');
     }
@@ -30,7 +44,9 @@ function Todo() {
 
   return (
     <div>
-      <h1>Todo App🔥</h1>
+      <h1>
+        Todo App <span>🔥</span>
+      </h1>
 
       <form action="">
         {/* <input type="text" value={input} onChange={handleChange} /> */}
