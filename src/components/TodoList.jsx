@@ -85,8 +85,12 @@ function TodoList(props) {
         </div>
       </Modal>
       <List>
-        <ListItem button>
-          <ListItemText primary={props.todo.todo} secondary={props.todo.time} />
+        <ListItem button key={props.todo.id}>
+          <ListItemText
+            primary={props.todo.todo}
+            // secondary={props.todo.time}
+          />
+
           <Button
             variant="contained"
             color="primary"

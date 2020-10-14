@@ -14,9 +14,12 @@ function Todo() {
     DB.collection('todos')
       .orderBy('time', 'desc')
       .onSnapshot((snapshot) => {
-        // console.log(snapshot.docs.map((doc) => doc.data()));
+        console.log(snapshot.docs.map((doc) => doc.data()));
         setTodos(
-          snapshot.docs.map((doc) => ({ id: doc.id, todo: doc.data().todo }))
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            todo: doc.data().todo,
+          }))
         );
       });
   }, []);
@@ -36,9 +39,8 @@ function Todo() {
       e.preventDefault();
       console.log('Type Something ');
     } else {
-      e.preventDefault();
-
       //insert into firebase
+      e.preventDefault();
       DB.collection('todos').add({
         todo: input,
         time: firebase.firestore.FieldValue.serverTimestamp(),
@@ -51,13 +53,15 @@ function Todo() {
   return (
     <div>
       <h1>
-        Todo App<span>🔥</span>
+        Todo App
+        <span role="img" aria-label="fire">
+          🔥
+        </span>
       </h1>
 
       <form action="">
-        {/* <input type="text" value={input} onChange={handleChange} /> */}
         <TextField
-          label="Add Todos..."
+          label="Add a task..."
           type="text"
           variant="outlined"
           value={input}
@@ -78,8 +82,11 @@ function Todo() {
 
       <ul className="todo-list">
         {todos.map((todo) => (
-          <TodoList todo={todo} />
-          // <li key={todo}>{todo}</li>
+          <TodoList
+            todo={todo}
+            key={todo.id}
+            // time={todo.time}
+          />
         ))}
       </ul>
     </div>
