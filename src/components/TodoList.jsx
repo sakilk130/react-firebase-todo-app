@@ -1,5 +1,4 @@
 import React from 'react';
-import './TodoList.css';
 import {
   Button,
   List,
@@ -7,21 +6,27 @@ import {
   ListItemText,
   makeStyles,
   Modal,
+  TextField,
 } from '@material-ui/core';
-import { RiDeleteBin6Line } from 'react-icons/ri';
 import DB from './db/firebase';
 import { useState } from 'react';
 import firebase from 'firebase';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import UpdateIcon from '@material-ui/icons/Update';
 
 // Update popup style
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
+    marginLeft: 525,
+    marginTop: 250,
     width: 400,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    textAlign: 'center',
   },
 }));
 
@@ -56,29 +61,52 @@ function TodoList(props) {
     <div>
       <Modal open={open} onClose={handleClose}>
         <div className={classes.paper}>
-          <input
+          <TextField
+            label={props.todo.todo}
             type="text"
-            placeholder={props.todo.todo}
+            variant="outlined"
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
-          <button onClick={updateTodo}>edit</button>
+          <span className="space"></span>
+          <Button
+            onClick={updateTodo}
+            type="submit"
+            variant="contained"
+            color="primary"
+            size="large"
+            disabled={!input}
+          >
+            <span className="add-btn">
+              <UpdateIcon />
+              Update
+            </span>
+          </Button>
         </div>
       </Modal>
-      <List className="todo-list">
-        <ListItem>
+      <List>
+        <ListItem button>
           <ListItemText primary={props.todo.todo} secondary={props.todo.time} />
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            onClick={(e) => setOpen(true)}
+          >
+            <EditIcon />
+            <span>Edit</span>
+          </Button>
+          <span className="space"></span>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="medium"
+            onClick={deleteTodo}
+          >
+            <DeleteForeverIcon />
+            <span>Remove</span>
+          </Button>
         </ListItem>
-        <button onClick={(e) => setOpen(true)}>Edit </button>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="medium"
-          onClick={deleteTodo}
-        >
-          <RiDeleteBin6Line />
-          <span>Remove</span>
-        </Button>
       </List>
     </div>
   );

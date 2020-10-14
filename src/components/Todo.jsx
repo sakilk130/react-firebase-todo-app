@@ -63,6 +63,7 @@ function Todo() {
           value={input}
           onChange={handleChange}
         />
+        <span className="space"></span>
         <Button
           onClick={addTodos}
           type="submit"
@@ -71,14 +72,11 @@ function Todo() {
           size="large"
           disabled={!input}
         >
-          <CgPlayListAdd /> Add
+          <CgPlayListAdd className="add-btn" /> Add
         </Button>
-        {/* <button onClick={addTodos} type="submit">
-          +Add
-        </button> */}
       </form>
 
-      <ul>
+      <ul className="todo-list">
         {todos.map((todo) => (
           <TodoList todo={todo} />
           // <li key={todo}>{todo}</li>
