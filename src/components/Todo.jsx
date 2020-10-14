@@ -14,7 +14,7 @@ function Todo() {
     DB.collection('todos')
       .orderBy('time', 'desc')
       .onSnapshot((snapshot) => {
-        console.log(snapshot.docs.map((doc) => doc.data()));
+        console.log(snapshot.docs.map((doc) => doc.data().time));
         setTodos(
           snapshot.docs.map((doc) => ({
             id: doc.id,
@@ -34,7 +34,7 @@ function Todo() {
   const addTodos = (e) => {
     // console.log('object');
 
-    //if empty....
+    //if empty
     if (input === '') {
       e.preventDefault();
       console.log('Type Something ');
@@ -45,6 +45,7 @@ function Todo() {
         todo: input,
         time: firebase.firestore.FieldValue.serverTimestamp(),
       });
+      //separate
       setTodos([...todos, input]);
       setInput('');
     }
@@ -59,7 +60,7 @@ function Todo() {
         </span>
       </h1>
 
-      <form action="">
+      <form>
         <TextField
           label="Add a task..."
           type="text"
@@ -82,11 +83,7 @@ function Todo() {
 
       <ul className="todo-list">
         {todos.map((todo) => (
-          <TodoList
-            todo={todo}
-            key={todo.id}
-            // time={todo.time}
-          />
+          <TodoList key={todo.id} todo={todo} />
         ))}
       </ul>
     </div>

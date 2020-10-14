@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   List,
@@ -8,25 +8,24 @@ import {
   Modal,
   TextField,
 } from '@material-ui/core';
-import DB from './db/firebase';
-import { useState } from 'react';
-import firebase from 'firebase';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import UpdateIcon from '@material-ui/icons/Update';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from '@material-ui/icons/Edit';
+import DB from './db/firebase';
+import firebase from 'firebase';
 
 // Update popup style
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
-    marginLeft: 525,
-    marginTop: 250,
+    display: 'flex',
+    justifyContent: 'start',
+    margin: '128px auto',
+    borderRadius: 10,
+    textAlign: 'center',
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    textAlign: 'center',
   },
 }));
 
@@ -59,6 +58,7 @@ function TodoList(props) {
 
   return (
     <div>
+      {/* popup update window */}
       <Modal open={open} onClose={handleClose}>
         <div className={classes.paper}>
           <TextField
@@ -84,13 +84,11 @@ function TodoList(props) {
           </Button>
         </div>
       </Modal>
-      <List>
-        <ListItem button key={props.todo.id}>
-          <ListItemText
-            primary={props.todo.todo}
-            // secondary={props.todo.time}
-          />
 
+      {/* List of todos */}
+      <List>
+        <ListItem button>
+          <ListItemText primary={props.todo.todo} />
           <Button
             variant="contained"
             color="primary"
