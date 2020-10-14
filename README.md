@@ -23,3 +23,11 @@ Run it
 ```bash
 $ npm start # or yarn start
 ```
+
+## Built with
+
+- Reactjs
+- React Hooks
+- Firebase (database)
+- With Full Crud Functionality (insert, update,delete, read)
+- Material-UI for design
