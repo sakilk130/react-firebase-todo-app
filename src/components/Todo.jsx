@@ -19,6 +19,7 @@ function Todo() {
           snapshot.docs.map((doc) => ({
             id: doc.id,
             todo: doc.data().todo,
+            date: doc.data().date,
           }))
         );
       });
@@ -28,6 +29,13 @@ function Todo() {
   const handleChange = (e) => {
     setInput(e.target.value);
     // console.log(input);
+  };
+
+  // date
+  const toDate = () => {
+    let date = new Date();
+    const today = date.toDateString();
+    return today;
   };
 
   // button Add todo
@@ -44,6 +52,7 @@ function Todo() {
       DB.collection('todos').add({
         todo: input,
         time: firebase.firestore.FieldValue.serverTimestamp(),
+        date: toDate(),
       });
       //separate
       setTodos([...todos, input]);
